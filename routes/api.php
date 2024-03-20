@@ -3,6 +3,8 @@
 use App\Http\Controllers\ReportUser\ReportController;
 use App\Http\Controllers\Devices\DeviceController;
 use App\Http\Controllers\User\AuthController;
+use App\Http\Controllers\Contact\ContactController;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -48,6 +50,8 @@ Route::get('/list-devices', [DeviceController::class, 'listDevices'])->name('lis
 Route::post('/add-device', [DeviceController::class, 'addDevice'])->name('addDevice');
 Route::get('/my-devices', [DeviceController::class, 'userDevices'])->name('userDevices');
 
+// Contact Us
+Route::post('/contact-us', [ContactController::class, 'contactUs'])->name('contactUs');
 
 
 

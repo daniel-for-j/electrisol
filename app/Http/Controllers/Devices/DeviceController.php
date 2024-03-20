@@ -13,7 +13,10 @@ class DeviceController extends Controller
     public function listDevices(Request $request){
         $devices = Device::get();
 
-        return $devices;
+        return [
+            'message'=>'Device List',
+            'devices'=> $devices
+        ];
     }
 
 
@@ -25,11 +28,15 @@ class DeviceController extends Controller
             'duration'=>'required'
         ]);
 
-        $addDevice = UserDevivce::create([
-            'name'=> $device['name'],
+        // To get Device name
+        $addedDevice = Device::where('code_name',$device['name'])->first();
+
+        $addDevice = UserDevice::create([
+            'user_id'=>  $request->user()->id,
+            'name'=> $addedDevice->name,
             'kilowatt'=> $device['kilowatt'],
             'duration'=> $device['duration'],
-            'user_id'=> $request->user()->id,
+            'code_name'=> $device['name']
         ]);
 
 
@@ -43,7 +50,15 @@ class DeviceController extends Controller
 
     public function userDevices(Request $request){
         $userDevices = UserDevice::where('user_id',$request->user()->id)->get();
+        if(count($userDevices)==0){
+            return [
+                'message'=> "No devices added yet"
+            ];
+        }
 
-        return $userDevices;
+        return[
+            'mesage'=>'Your devices',
+            'devices'=> $userDevices
+        ];
     }
 }

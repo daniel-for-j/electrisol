@@ -14,6 +14,15 @@ class UserDevice extends Model
     protected $hidden = [
         'updated_at',
         'user_id',
+        'created_at'
+    ];
+
+    protected $fillable = [
+        'name',
+        'kilowatt',
+        'duration',
+        'user_id',
+        'code_name'
     ];
 }
 

@@ -5,26 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Reports extends Model
+class Contact extends Model
 {
     use HasFactory;
-    protected $table = "reports"; 
+    protected $table = 'contact';
+
     protected $fillable = [
-        'report_desc',
-        'location',
-        'affected_disco',
         'company_name',
+        'full_name',
+        'message',
         'phone_no',
-        'email',
-        'user_id'
+        'email'
     ];
 
     protected $hidden = [
-        'updated_at',
-        'user_id',
-        'created_at'
+        'created_at',
+        'updated_at'
     ];
-    
-
-
 }
