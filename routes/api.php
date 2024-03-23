@@ -4,6 +4,9 @@ use App\Http\Controllers\ReportUser\ReportController;
 use App\Http\Controllers\Devices\DeviceController;
 use App\Http\Controllers\User\AuthController;
 use App\Http\Controllers\Contact\ContactController;
+use App\Http\Controllers\MarketPlace\CategoryController;
+use App\Http\Controllers\MarketPlace\PostController;
+
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -53,6 +56,11 @@ Route::get('/my-devices', [DeviceController::class, 'userDevices'])->name('userD
 // Contact Us
 Route::post('/contact-us', [ContactController::class, 'contactUs'])->name('contactUs');
 
+
+// MarketPlace
+Route::post('/post-ad', [PostController::class, 'postAd'])->name('postAd');
+Route::get('/categories', [CategoryController::class, 'categories'])->name('categories');
+Route::get('{postId}/single-post', [PostController::class, 'singlePost'])->name('singlePost');
 
 
     
