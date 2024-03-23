@@ -33,14 +33,14 @@ class AuthController extends Controller
         );
         
        
-        Session::put('to', $request->email);
-        Session::put('from', 'vigo4real2016@gmail.com');
+        // Session::put('to', $request->email);
+        // Session::put('from', 'vigo4real2016@gmail.com');
 
-        Mail::send('emails.email-verification', $details, function ($message) {
-            $message->from(Session::get('from'), 'Electrisol');
-            $message->to(Session::get('to'));
-            $message->subject('OTP');
-        });
+        // Mail::send('emails.email-verification', $details, function ($message) {
+        //     $message->from(Session::get('from'), 'Electrisol');
+        //     $message->to(Session::get('to'));
+        //     $message->subject('OTP');
+        // });
         $user->remember_token = $otp;
         $user->save();
 
@@ -51,7 +51,8 @@ class AuthController extends Controller
 
         return response()->json([
             'message' => 'One Time Password(OTP) has been sent to your email',
-            'token_duartion' => '1 Hour'
+            'token_duartion' => '1 Hour',
+            'otp'=>$otp
         ]);
     }
 
