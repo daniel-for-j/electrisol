@@ -26,7 +26,7 @@ class ReportController extends Controller
         ]);
         $createReport = Reports::create([
             'name'=> $report['name'],
-            'description'=>$report['description'],
+            'report_desc'=>$report['description'],
             'location'=>$report['location'],
             'affected_disco'=>$report['affected_disco'],
             'company_name'=>$report['company_name'],
