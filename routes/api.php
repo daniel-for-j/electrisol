@@ -61,6 +61,8 @@ Route::post('/contact-us', [ContactController::class, 'contactUs'])->name('conta
 Route::post('/post-ad', [PostController::class, 'postAd'])->name('postAd');
 Route::get('/categories', [CategoryController::class, 'categories'])->name('categories');
 Route::get('{postId}/single-post', [PostController::class, 'singlePost'])->name('singlePost');
+Route::get('my-posts', [PostController::class, 'myPosts'])->name('myPosts');
+
 
 
     
