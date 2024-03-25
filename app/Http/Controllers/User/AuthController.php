@@ -7,53 +7,81 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\User;
-use App\Mail\OTP;
+use App\Mail\PHPMailMailer;
+use PHPMailer\PHPMailer\PHPMailer;
 use Session;
 use Mail;
 
 class AuthController extends Controller
 {
     public function register(Request $request){
-        $registerUserData = $request->validate([
-            'name'=>'required|string',
-            'email'=>'required|string|email|unique:users',
-            'password'=>'required|min:8'
-        ]);
-        $user = User::create([
-            'name' => $registerUserData['name'],
-            'email' => $registerUserData['email'],
-            'password' => Hash::make($registerUserData['password']),
-        ]);
-        if($user){
+        // $registerUserData = $request->validate([
+        //     'name'=>'required|string',
+        //     'email'=>'required|string|email|unique:users',
+        //     'password'=>'required|min:8'
+        // ]);
+        // $user = User::create([
+        //     'name' => $registerUserData['name'],
+        //     'email' => $registerUserData['email'],
+        //     'password' => Hash::make($registerUserData['password']),
+        // ]);
+        // if($user){
 
-        // OTP creation
-        $otp = rand(100000, 999999);
-        $details = array(
-            "otp" => $otp
-        );
+        // // OTP creation
+        // $otp = rand(100000, 999999);
+        // $details = array(
+        //     "otp" => $otp
+        // );
         
        
-        Session::put('to', $request->email);
-        Session::put('from', 'vigo4real2016@gmail.com');
+        // Session::put('to', $request->email);
+        // Session::put('from', 'vigo4real2016@gmail.com');
 
-        Mail::send('emails.email-verification', $details, function ($message) {
-            $message->from(Session::get('from'), 'Electrisol');
-            $message->to(Session::get('to'));
-            $message->subject('OTP');
-        });
-        $user->remember_token = $otp;
-        $user->save();
+        // Mail::send('emails.email-verification', $details, function ($message) {
+        //     $message->from(Session::get('from'), 'Electrisol');
+        //     $message->to(Session::get('to'));
+        //     $message->subject('OTP');
+        // });
 
-        }
+        // Mail::send(new PHPMailMailer());
+
+        $mail = new PHPMailer(true);
+        $mail->isSMTP();
+      
+        $mail->Host = 'smtp.gmail.com'; // Your SMTP host
+        $mail->SMTPAuth = true;
+        $mail->Username = 'vigo4real2016@gmail.com'; // Your SMTP username
+        $mail->Password = 'mwwzupkbeiyhvnuo'; // Your SMTP password
+        $mail->SMTPSecure = 'tls';
+        $mail->Port = 465;
+        $mail->SMTPDebug= 2;
+
+        $mail->setFrom('vigo4real2016@gmail.com', 'Electrisol');
+        $mail->addAddress('danieloluwasegun1000@gmail.com', 'DV');
+
+        $mail->Subject = 'OTP';
+        $mail->Body = 'This is a test email sent using PHPMailer in Laravel.';
+        if(!$mail->send()) {  
+           return $mail->ErrorInfo;
+        } 
+            else {   
+                return 'sent';
+            }
+
+
+        // $user->remember_token = $otp;
+        // $user->save();
+
+        // }
         
 
         
 
-        return response()->json([
-            'message' => 'One Time Password(OTP) has been sent to your email',
-            'token_duartion' => '1 Hour',
-            'otp'=>$otp
-        ]);
+        // return response()->json([
+        //     'message' => 'One Time Password(OTP) has been sent to your email',
+        //     'token_duartion' => '1 Hour',
+        //     'otp'=>$otp
+        // ]);
     }
 
 
