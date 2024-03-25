@@ -28,53 +28,22 @@ class AuthController extends Controller
             'password' => Hash::make($registerUserData['password']),
         ]);
         if($user){
-
         // OTP creation
         $otp = rand(100000, 999999);
         $details = array(
             "otp" => $otp
         );
         
-       
         Session::put('to', $request->email);
         Session::put('from', 'vigo4real2016@gmail.com');
 
-        return [
-            'from'=>Session::get('from'),
-            'to'=>Session::get('to')
-        ];
-        
         Mail::send('emails.email-verification', $details, function ($message) {
             $message->from(Session::get('from'), 'Electrisol');
             $message->to(Session::get('to'));
             $message->subject('OTP');
         });
 
-        // Mail::send(new PHPMailMailer());
-
-        // $mail = new PHPMailer(true);
-        // $mail->isSMTP();
-      
-        // $mail->Host = 'smtp.gmail.com'; // Your SMTP host
-        // $mail->SMTPAuth = true;
-        // $mail->Username = 'vigo4real2016@gmail.com'; // Your SMTP username
-        // $mail->Password = 'mwwzupkbeiyhvnuo'; // Your SMTP password
-        // $mail->SMTPSecure = 'tls';
-        // $mail->Port = 465;
-        // $mail->SMTPDebug= 2;
-
-        // $mail->setFrom('vigo4real2016@gmail.com', 'Electrisol');
-        // $mail->addAddress('danieloluwasegun1000@gmail.com', 'DV');
-
-        // $mail->Subject = 'OTP';
-        // $mail->Body = 'This is a test email sent using PHPMailer in Laravel.';
-        // if(!$mail->send()) {  
-        //    return $mail->ErrorInfo;
-        // } 
-        //     else {   
-        //         return 'sent';
-        //     }
-
+    
 
         $user->remember_token = $otp;
         $user->save();
