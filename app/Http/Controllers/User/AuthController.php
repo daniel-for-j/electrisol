@@ -34,14 +34,14 @@ class AuthController extends Controller
             "otp" => $otp
         );
         
-        Session::put('to', $request->email);
-        Session::put('from', 'vigo4real2016@gmail.com');
+        // Session::put('to', $request->email);
+        // Session::put('from', 'vigo4real2016@gmail.com');
 
-        Mail::send('emails.email-verification', $details, function ($message) {
-            $message->from(Session::get('from'), 'Electrisol');
-            $message->to(Session::get('to'));
-            $message->subject('OTP');
-        });
+        // Mail::send('emails.email-verification', $details, function ($message) {
+        //     $message->from(Session::get('from'), 'Electrisol');
+        //     $message->to(Session::get('to'));
+        //     $message->subject('OTP');
+        // });
 
     
 
