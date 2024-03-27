@@ -87,11 +87,13 @@ class ReportController extends Controller
     public function adminReports(Request $request){
     
         if($request->header('Authorization')=='09.iu;=-#$%^&*(.;lVts7'){
-            $allReports = Reports::get();
+            $pendingReports = Reports::where('state','pending')->get();
+            $resolvedReports = ReportController::where('state','resolved')->get();
 
             return [
                 'success'=> true,
-                'reports'=> $allReports
+                'pending_reports'=> $pendingReports,
+                'resolved_reports'=>$resolvedReports
             ];
         }
     }

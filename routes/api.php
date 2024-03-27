@@ -33,6 +33,8 @@ Route::post('/verify-otp', [AuthController::class, 'VerifyOTP'])->name('verifyOt
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/get-otp', [AuthController::class, 'getOtp'])->name('getOtp');
 Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('resetPassword');
+Route::get('/admin-reports', [ReportController::class,'adminReports'])->name('adminReports');
+
 
 
 
@@ -47,6 +49,7 @@ Route::post('/change-password', [AuthController::class, 'changePassword'])->name
 Route::post('/report', [ReportController::class, 'report'])->name('report');
 Route::get('/report-history', [ReportController::class, 'reportHistory'])->name('reportHistory');
 Route::get('{reprtId}/single-report', [ReportController::class, 'singleReport'])->name('singleReport');
+
 
 // Devices
 Route::get('/list-devices', [DeviceController::class, 'listDevices'])->name('listDevices');
