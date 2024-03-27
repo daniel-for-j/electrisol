@@ -57,7 +57,6 @@ class AuthController extends Controller
             'success'=> true,
             'message' => 'One Time Password(OTP) has been sent to your email',
             'token_duartion' => '1 Hour',
-            'otp'=>$otp
         ]);
     }
 
