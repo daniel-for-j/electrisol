@@ -33,20 +33,20 @@ class PostController extends Controller
         ]);
 
         // image upload
-        $path = $request->file('img')->store('images');
-        $path2 = $request->file('img2')->store('images');
+        $path = $request->file('img')->store('images','public');
+        $path2 = $request->file('img2')->store('images','public');
         $path3 = null;
         $path4 = null;
         $path5 = null;
 
         if($request->file('img3')){
-             $path3 = $request->file('img3')->store('images');
+             $path3 = $request->file('img3')->store('images','public');
 
         }else if($request->file('img4')){
-            $path4 = $request->file('img4')->store('images');
+            $path4 = $request->file('img4')->store('images','public');
 
         }else if($request->file('img5')){
-            $path5 = $request->file('img5')->store('images');
+            $path5 = $request->file('img5')->store('images','public');
 
         }
 
