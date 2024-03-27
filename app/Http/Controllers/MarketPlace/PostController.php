@@ -111,8 +111,8 @@ class PostController extends Controller
                 'single_post'=> [
                     'category'=>$category->name,
                      'user_id'=>$singlePost->user_id,
-                     'img' =>Storage::url($singlePost->img),
-                     'img2'=>Storage::url($singlePost->img2),
+                     'img' =>Storage::path($singlePost->img),
+                     'img2'=>Storage::path($singlePost->img2),
                      'img3'=>($singlePost->img3 !==  null) ? Storage::path($singlePost->img3): null,
                      'img4'=>(($singlePost->img4 !==  null)) ? Storage::path($singlePost->img4): null,
                      'img5'=>(($singlePost->img5 !==  null)) ? Storage::path($singlePost->img5): null,
@@ -140,8 +140,11 @@ class PostController extends Controller
     public function myPosts(Request $request){
         $myPosts = Post::where('user_id',$request->user()->id)->get();
 
+        $path = public_path() . $myPosts[0]->img;
+
         return [
             'success'=> true,
+            'data'=> $path,
             'message'=>'Your Posts',
             'my_posts'=> $myPosts
         ];
