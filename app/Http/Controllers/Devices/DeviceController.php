@@ -14,6 +14,7 @@ class DeviceController extends Controller
         $devices = Device::get();
 
         return [
+            'success'=> true,
             'message'=>'Device List',
             'devices'=> $devices
         ];
@@ -42,6 +43,7 @@ class DeviceController extends Controller
 
         if($addDevice){
             return [
+                'success'=> true,
                 'message'=> 'Device added successfully'
             ];
         }
@@ -57,6 +59,7 @@ class DeviceController extends Controller
         }
 
         return[
+            'success'=> true,
             'mesage'=>'Your devices',
             'devices'=> $userDevices
         ];

@@ -54,6 +54,7 @@ class AuthController extends Controller
         
 
         return response()->json([
+            'success'=> true,
             'message' => 'One Time Password(OTP) has been sent to your email',
             'token_duartion' => '1 Hour',
             'otp'=>$otp
@@ -84,6 +85,7 @@ class AuthController extends Controller
         }
         $token = $user->createToken($user->name.'-AuthToken')->plainTextToken;
         return response()->json([
+            'success'=> true,
             'message' => 'Login Successful',
             'access_token' => $token,
         ]);
@@ -93,6 +95,7 @@ class AuthController extends Controller
         auth()->user()->tokens()->delete();
     
         return response()->json([
+          'success'=> true,
           "message"=>"Logged Out"
         ]);
     }
@@ -127,6 +130,7 @@ class AuthController extends Controller
 
         return 
         [
+            'success'=> true,
             'message'=>"OTP has been sent to your Email"
         ];
 
@@ -149,11 +153,14 @@ class AuthController extends Controller
         }
         else{
             return [
+                'success'=> true,
+
                 'message'=>'Sorry, OTP(One Time Password) does not match'
             ];
         }
 
         return [
+            'success'=> true,
             'message'=>'User Verified Successfully'
         ];
         
@@ -175,6 +182,7 @@ class AuthController extends Controller
                 $otp->save();
 
                 return response()->json([
+                    'success'=> true,
                     'message' => 'Password reset successful.',
                 ]);
 
@@ -209,6 +217,7 @@ class AuthController extends Controller
             $user->save();
 
             return response()->json([
+                'success'=> true,
                 'message' => 'Password changed successfully.',
             ]);
 

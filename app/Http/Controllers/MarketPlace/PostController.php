@@ -81,6 +81,7 @@ class PostController extends Controller
 
             if($post){
                 return [
+                    'success'=> true,
                     'message'=>'Post Created Successfully'
                 ];
             }
@@ -106,6 +107,7 @@ class PostController extends Controller
         if($userId == $singlePost->user_id){
             $category = Category::where('id',$singlePost->category_id)->first();
             return [
+                'success'=> true,
                 'single_post'=> [
                     'category'=>$category->name,
                      'user_id'=>$singlePost->user_id,
@@ -139,6 +141,7 @@ class PostController extends Controller
         $myPosts = Post::where('user_id',$request->user()->id)->get();
 
         return [
+            'success'=> true,
             'message'=>'Your Posts',
             'my_posts'=> $myPosts
         ];

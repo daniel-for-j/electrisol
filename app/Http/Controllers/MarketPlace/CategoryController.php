@@ -12,6 +12,7 @@ class CategoryController extends Controller
         $categories = Category::get();
 
         return [
+            'success'=> true,
             'message'=> 'categories',
             'categories'=> $categories
         ];

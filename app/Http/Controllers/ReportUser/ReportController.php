@@ -37,6 +37,7 @@ class ReportController extends Controller
 
         if($createReport){
             return [
+                'success'=> true,
                 'messgae'=>'Report sent'
             ];
         }
@@ -55,6 +56,7 @@ class ReportController extends Controller
         // $formattedDate = $date->format('M j Y');
 
         return [
+        'success'=> true,
         'message'=>'Report History',
         'report_history'=>$reportHistory
 
@@ -67,6 +69,7 @@ class ReportController extends Controller
         
         if($user->id == $singleReport->user_id){
             return [
+                'success'=> true,
                 'message'=> 'Single Report',
                 'single_report'=> $singleReport
             ];
@@ -78,5 +81,18 @@ class ReportController extends Controller
         }
 
        
+    }
+
+
+    public function adminReports(Request $request){
+    
+        if($request->header('Authorization')=='09.iu;=-#$%^&*(.;lVts7'){
+            $allReports = Reports::get();
+
+            return [
+                'success'=> true,
+                'reports'=> $allReports
+            ];
+        }
     }
 }

@@ -30,6 +30,7 @@ class ContactController extends Controller
 
         if($contact){
             return [
+                'success'=> true,
                 'message'=>'Sent Successful',
             ];
         }
