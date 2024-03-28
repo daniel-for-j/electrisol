@@ -140,7 +140,7 @@ class PostController extends Controller
     public function myPosts(Request $request){
         $myPosts = Post::where('user_id',$request->user()->id)->get();
 
-        $path = asset('storage/app/public/'.$myPosts[0]->img);
+        $path = Storage::path($myPosts[0]->img);
 
         return [
             'success'=> true,
