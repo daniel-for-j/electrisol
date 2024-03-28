@@ -104,6 +104,10 @@ class PostController extends Controller
             ];
         }
 
+
+        $basePath = 'https://hoverinsight.com/public/';
+
+
         if($userId == $singlePost->user_id){
             $category = Category::where('id',$singlePost->category_id)->first();
             return [
@@ -111,11 +115,11 @@ class PostController extends Controller
                 'single_post'=> [
                     'category'=>$category->name,
                      'user_id'=>$singlePost->user_id,
-                     'img' =>Storage::path($singlePost->img),
-                     'img2'=>Storage::path($singlePost->img2),
-                     'img3'=>($singlePost->img3 !==  null) ? Storage::path($singlePost->img3): null,
-                     'img4'=>(($singlePost->img4 !==  null)) ? Storage::path($singlePost->img4): null,
-                     'img5'=>(($singlePost->img5 !==  null)) ? Storage::path($singlePost->img5): null,
+                     'img' =>$basePath.$singlePost->img,
+                     'img2'=>$basePath.$singlePost->img2,
+                     'img3'=>($singlePost->img3 !==  null) ? $basePath.$singlePost->img3: null,
+                     'img4'=>(($singlePost->img4 !==  null)) ? $basePath.$singlePost->img4: null,
+                     'img5'=>(($singlePost->img5 !==  null)) ? $basePath.$singlePost->img5: null,
                      'location'=>$singlePost->location,
                      'title'=>$singlePost->title,
                      'type'=>$singlePost->type, 
@@ -138,13 +142,38 @@ class PostController extends Controller
 
 
     public function myPosts(Request $request){
-        $myPosts = Post::where('user_id',$request->user()->id)->get();
+        $posts = Post::where('user_id',$request->user()->id)->get();
 
-        $path = Storage::path($myPosts[0]->img);
+        $basePath = 'https://hoverinsight.com/public';
+
+        $myPosts=[];
+
+        foreach($posts as $singlePost){
+            $category = Category::where('id',$singlePost->category_id)->first();
+            $post = [
+                    'category'=>$category->name,
+                     'user_id'=>$singlePost->user_id,
+                     'img' =>$basePath.$singlePost->img,
+                     'img2'=>$basePath.$singlePost->img2,
+                     'img3'=>($singlePost->img3 !==  null) ? $basePath.$singlePost->img3: null,
+                     'img4'=>(($singlePost->img4 !==  null)) ? $basePath.$singlePost->img4: null,
+                     'img5'=>(($singlePost->img5 !==  null)) ? $basePath.$singlePost->img5: null,
+                     'location'=>$singlePost->location,
+                     'title'=>$singlePost->title,
+                     'type'=>$singlePost->type, 
+                     'product_condition'=>$singlePost->product_condition,
+                     'description'=>$singlePost->description,
+                     'price'=>$singlePost->price,
+                     'negotiable'=>$singlePost->negotiable, 
+                     'phone_no'=>$singlePost->phone_no, 
+                     'alt_phone_no'=>$singlePost->alt_phone_no, 
+                ];
+                array_push($myPosts,$post);
+        }
+
 
         return [
             'success'=> true,
-            'data'=> $path,
             'message'=>'Your Posts',
             'my_posts'=> $myPosts
         ];
