@@ -113,6 +113,7 @@ class PostController extends Controller
             return [
                 'success'=> true,
                 'single_post'=> [
+                    'post_id'=>$singlePost->id,
                     'category'=>$category->name,
                      'user_id'=>$singlePost->user_id,
                      'img' =>$basePath.$singlePost->img,
@@ -144,13 +145,14 @@ class PostController extends Controller
     public function myPosts(Request $request){
         $posts = Post::where('user_id',$request->user()->id)->get();
 
-        $basePath = 'https://hoverinsight.com/public';
+        $basePath = 'https://hoverinsight.com/public/';
 
         $myPosts=[];
 
         foreach($posts as $singlePost){
             $category = Category::where('id',$singlePost->category_id)->first();
             $post = [
+                    'post_id'=>$singlePost->id,
                     'category'=>$category->name,
                      'user_id'=>$singlePost->user_id,
                      'img' =>$basePath.$singlePost->img,
