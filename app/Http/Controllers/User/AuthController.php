@@ -3,10 +3,14 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\Reports;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\User;
+use App\Models\Device;
+use App\Models\UserDevice;
+use App\Models\Post;
 use App\Mail\PHPMailMailer;
 use PHPMailer\PHPMailer\PHPMailer;
 use Session;
@@ -79,14 +83,28 @@ class AuthController extends Controller
         }
         elseif(is_null($user->email_verified_at)){
             return response()->json([
-                'message' => 'User not yet verified'
+                'message' => 'User not yet verified',
+                'verified'=>false,
             ],401);
         }
         $token = $user->createToken($user->name.'-AuthToken')->plainTextToken;
+        $myPosts = Post::where('user_id',$user->id)->get();
+        $myDevices = UserDevice::where('user_id',$user->id)->get();
+        $myReports = Reports::where('user_id',$user->id)->get();
         return response()->json([
             'success'=> true,
             'message' => 'Login Successful',
             'access_token' => $token,
+            'verified'=>true,
+            'user_info'=>[
+                'user_id'=>$user->id,
+                'full_name'=>$user->name,
+                'email'=>$user->email,
+                'no_of_posts'=>count($myPosts),
+                'no_of_devices'=>count($myDevices),
+                'reports'=>$myReports
+
+            ]
         ]);
     }
 
