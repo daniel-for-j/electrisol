@@ -22,7 +22,7 @@ class Reports extends Model
     protected $hidden = [
         'updated_at',
         'user_id',
-        'created_at'
+        
     ];
     
 
