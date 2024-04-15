@@ -26,7 +26,7 @@ class DeviceController extends Controller
         $device = $request->validate([
             'name'=>'required|string',
             'kilowatt'=>'required',
-            'duration'=>'required'
+            // 'duration'=>'required'
         ]);
 
         // To get Device name
@@ -36,7 +36,7 @@ class DeviceController extends Controller
             'user_id'=>  $request->user()->id,
             'name'=> $addedDevice->name,
             'kilowatt'=> $device['kilowatt'],
-            'duration'=> $device['duration'],
+            // 'duration'=> $device['duration'],
             'code_name'=> $device['name']
         ]);
 
