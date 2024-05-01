@@ -6,6 +6,8 @@ use App\Http\Controllers\User\AuthController;
 use App\Http\Controllers\Contact\ContactController;
 use App\Http\Controllers\MarketPlace\CategoryController;
 use App\Http\Controllers\MarketPlace\PostController;
+use App\Http\Controllers\HiringService\HiringServiceController;
+
 
 
 use Illuminate\Http\Request;
@@ -67,6 +69,8 @@ Route::get('{postId}/single-post', [PostController::class, 'singlePost'])->name(
 Route::get('my-posts', [PostController::class, 'myPosts'])->name('myPosts');
 
 
+// Proffesional Hiring Services 
+Route::post('register-service', [HiringServiceController::class, 'registerService'])->name('registerService');
 
     
 });
