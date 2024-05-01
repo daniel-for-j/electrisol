@@ -36,7 +36,7 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/get-otp', [AuthController::class, 'getOtp'])->name('getOtp');
 Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('resetPassword');
 Route::get('/admin-reports', [ReportController::class,'adminReports'])->name('adminReports');
-
+Route::get('/post-categories', [CategoryController::class, 'postCategories'])->name('postCategories');
 
 
 
@@ -46,6 +46,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 // Profile
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::post('/change-password', [AuthController::class, 'changePassword'])->name('changePassword');
+Route::post('profile-edit', [AuthController::class, 'profileEdit'])->name('profileEdit');
 
 // Report
 Route::post('/report', [ReportController::class, 'report'])->name('report');
@@ -64,7 +65,6 @@ Route::post('/contact-us', [ContactController::class, 'contactUs'])->name('conta
 
 // MarketPlace
 Route::post('/post-ad', [PostController::class, 'postAd'])->name('postAd');
-Route::get('/categories', [CategoryController::class, 'categories'])->name('categories');
 Route::get('{postId}/single-post', [PostController::class, 'singlePost'])->name('singlePost');
 Route::get('my-posts', [PostController::class, 'myPosts'])->name('myPosts');
 
