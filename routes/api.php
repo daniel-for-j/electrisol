@@ -37,6 +37,8 @@ Route::post('/get-otp', [AuthController::class, 'getOtp'])->name('getOtp');
 Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('resetPassword');
 Route::get('/admin-reports', [ReportController::class,'adminReports'])->name('adminReports');
 Route::get('/post-categories', [CategoryController::class, 'postCategories'])->name('postCategories');
+Route::get('/profession-categories', [CategoryController::class, 'professionCategories'])->name('professionCategories');
+
 
 
 
