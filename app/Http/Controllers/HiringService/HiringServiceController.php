@@ -38,7 +38,7 @@ class HiringServiceController extends Controller
     }
 
 
-    public function service(Request $request){
+    public function services(Request $request){
         $services = UserService::get();
 
         return response()->json([
