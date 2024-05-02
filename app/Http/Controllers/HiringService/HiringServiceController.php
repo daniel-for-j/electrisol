@@ -34,12 +34,17 @@ class HiringServiceController extends Controller
                 'success'=> true,
                 'message'=>'Service Created Successfully'
             ];
-        }
+        }        
+    }
 
 
+    public function service(Request $request){
+        $services = UserService::get();
 
-
-        
-        
+        return response()->json([
+            'sucess'=>true,
+            'message' => 'Services',
+            'services'=> $services
+        ],200);
     }
 }

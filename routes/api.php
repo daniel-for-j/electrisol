@@ -73,6 +73,7 @@ Route::get('my-posts', [PostController::class, 'myPosts'])->name('myPosts');
 
 // Proffesional Hiring Services 
 Route::post('register-service', [HiringServiceController::class, 'registerService'])->name('registerService');
+Route::get('services', [HiringServiceController::class, 'services'])->name('services');
 
     
 });
