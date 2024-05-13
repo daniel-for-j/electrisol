@@ -23,6 +23,7 @@ class HiringServiceController extends Controller
 
         $CreateUserService = UserService::create([
             'user_id'=> $user->id,
+            'profile_picture'=> $user->profile_picture,
             'profession'=> $userService['profession'],
             'description'=>$userService['description'],
             'phone'=>$userService['phone'],
@@ -46,5 +47,17 @@ class HiringServiceController extends Controller
             'message' => 'Services',
             'services'=> $services
         ],200);
+    }
+
+    public function viewService(Request $request, $serviceId){
+
+        $service = UserService::where('id', $serviceId)->first();
+
+        return response()->json([
+            'sucess'=>true,
+            'service'=> $service
+        ],200);
+
+
     }
 }

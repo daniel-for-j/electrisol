@@ -7,6 +7,7 @@ use App\Http\Controllers\Contact\ContactController;
 use App\Http\Controllers\MarketPlace\CategoryController;
 use App\Http\Controllers\MarketPlace\PostController;
 use App\Http\Controllers\HiringService\HiringServiceController;
+use App\Http\Controllers\User\ProfileController;
 
 
 
@@ -48,7 +49,9 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 // Profile
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::post('/change-password', [AuthController::class, 'changePassword'])->name('changePassword');
-Route::post('profile-edit', [AuthController::class, 'profileEdit'])->name('profileEdit');
+Route::post('profile-edit', [ProfileController::class, 'profileEdit'])->name('profileEdit');
+Route::post('profile-picture-upload', [ProfileController::class, 'profilePictureUpload'])->name('profilePictureUpload');
+
 
 // Report
 Route::post('/report', [ReportController::class, 'report'])->name('report');
@@ -74,6 +77,8 @@ Route::get('my-posts', [PostController::class, 'myPosts'])->name('myPosts');
 // Proffesional Hiring Services 
 Route::post('register-service', [HiringServiceController::class, 'registerService'])->name('registerService');
 Route::get('services', [HiringServiceController::class, 'services'])->name('services');
+Route::get('{serviceId}/view-service', [HiringServiceController::class, 'view-service'])->name('view-service');
+
 
     
 });
