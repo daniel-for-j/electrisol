@@ -32,7 +32,7 @@ class AuthController extends Controller
             'password' => Hash::make($registerUserData['password']),
         ]);
         if($user){
-        // OTP creation
+        // OTP creation and sending
         $otp = rand(100000, 999999);
         $details = array(
             "otp" => $otp
@@ -91,6 +91,8 @@ class AuthController extends Controller
         $myPosts = Post::where('user_id',$user->id)->get();
         $myDevices = UserDevice::where('user_id',$user->id)->get();
         $myReports = Reports::where('user_id',$user->id)->get();
+        $basePath = 'https://hoverinsight.com/public/';
+
         return response()->json([
             'success'=> true,
             'message' => 'Login Successful',
@@ -98,6 +100,7 @@ class AuthController extends Controller
             'verified'=>true,
             'user_info'=>[
                 'user_id'=>$user->id,
+                "profile_picture"=>$basePath.$user->profile_picture,
                 'full_name'=>$user->name,
                 'email'=>$user->email,
                 'no_of_posts'=>count($myPosts),
