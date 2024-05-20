@@ -32,6 +32,7 @@ use Illuminate\Support\Facades\Route;
 
 // Authentication
 Route::post('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/third-party-signin', [AuthController::class, 'thirdPartySignIn'])->name('thirdPartySignIn');
 Route::post('/verify-otp', [AuthController::class, 'VerifyOTP'])->name('verifyOtp');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/get-otp', [AuthController::class, 'getOtp'])->name('getOtp');

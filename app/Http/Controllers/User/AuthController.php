@@ -250,4 +250,10 @@ class AuthController extends Controller
         }
 
     }
+
+
+    public function thirdPartySignIn(Request $request){
+
+
+    }
 }
