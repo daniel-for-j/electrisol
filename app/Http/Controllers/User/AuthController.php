@@ -142,6 +142,7 @@ class AuthController extends Controller
 
         // Save sent otp 
         $user = User::where('email', $request->email)->first();
+        return $user;
         $user->remember_token = $otp;
         $user->save();
 
