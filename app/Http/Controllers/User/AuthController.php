@@ -132,7 +132,7 @@ class AuthController extends Controller
         );
        
         Session::put('to', $request->email);
-        Session::put('from', 'vigo4real2016@gmail.com');
+        Session::put('from', 'contact@hoverinsight.com');
 
         Mail::send('emails.otp', $details, function ($message) {
             $message->from(Session::get('from'), 'Electrisol');
