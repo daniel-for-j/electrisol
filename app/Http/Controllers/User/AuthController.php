@@ -290,7 +290,7 @@ class AuthController extends Controller
     
             return response()->json([
                 'success'=> true,
-                'message' => 'Login Successful',
+                'message' => 'Registered Successful',
                 'access_token' => $token,
                 'verified'=>true,
                 'user_info'=>[
