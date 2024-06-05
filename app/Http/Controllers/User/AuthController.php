@@ -261,5 +261,76 @@ class AuthController extends Controller
     public function thirdPartySignIn(Request $request){
 
 
+        $user = User::where('email', $request->email)->first();
+
+        // If User is not found, it creates the user
+        if(!$user){
+            $validateUserDetails = $request->validate([
+                'email'=>'required|unique:users',
+                'name'=>'required|string',
+                'thirdPartyApp'=>'required|string'
+            ]);
+    
+            $password = rand(1000000, 9999999);
+            $userPassword = $request->thirdPartyApp . $password;
+    
+            $user = User::create([
+                'name' => $validateUserDetails['name'],
+                'email' => $validateUserDetails['email'],
+                'password' =>$userPassword,
+                'remember_token'=> 'Verified by ' . $request->thirdPartyApp
+            ]);
+    
+            
+            $token = $user->createToken($user->name.'-AuthToken')->plainTextToken;
+            $myPosts = Post::where('user_id',$user->id)->get();
+            $myDevices = UserDevice::where('user_id',$user->id)->get();
+            $myReports = Reports::where('user_id',$user->id)->get();
+            $basePath = 'https://hoverinsight.com/public/';
+    
+            return response()->json([
+                'success'=> true,
+                'message' => 'Login Successful',
+                'access_token' => $token,
+                'verified'=>true,
+                'user_info'=>[
+                    'user_id'=>$user->id,
+                    "profile_picture"=>$basePath.$user->profile_picture,
+                    'full_name'=>$user->name,
+                    'email'=>$user->email,
+                    'no_of_posts'=>count($myPosts),
+                    'no_of_devices'=>count($myDevices),
+                    'reports'=>$myReports
+    
+                ]
+            ]);
+        }
+        else{
+            $token = $user->createToken($user->name.'-AuthToken')->plainTextToken;
+            $myPosts = Post::where('user_id',$user->id)->get();
+            $myDevices = UserDevice::where('user_id',$user->id)->get();
+            $myReports = Reports::where('user_id',$user->id)->get();
+            $basePath = 'https://hoverinsight.com/public/';
+    
+            return response()->json([
+                'success'=> true,
+                'message' => 'Login Successful',
+                'access_token' => $token,
+                'verified'=>true,
+                'user_info'=>[
+                    'user_id'=>$user->id,
+                    "profile_picture"=>$basePath.$user->profile_picture,
+                    'full_name'=>$user->name,
+                    'email'=>$user->email,
+                    'no_of_posts'=>count($myPosts),
+                    'no_of_devices'=>count($myDevices),
+                    'reports'=>$myReports
+    
+                ]
+            ]);   
+        }
+
+      
+
     }
 }
