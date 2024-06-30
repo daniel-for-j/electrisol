@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\MarketPlace;
 
 use App\Http\Controllers\Controller;
+use App\Models\Likes;
+use App\Models\Cart;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Models\Post;
@@ -180,4 +182,192 @@ class PostController extends Controller
             'my_posts'=> $myPosts
         ];
     }
+
+    public function allPosts(Request $request){
+        $posts = Post::get();
+        $categories = Category::with('posts')->get();
+
+        return $categories;
+
+        $basePath = 'https://hoverinsight.com/public/';
+
+        $allPosts=[];
+        
+
+        foreach($posts as $singlePost){
+            $category = Category::where('id',$singlePost->category_id)->first();
+            $post = [
+                    'post_id'=>$singlePost->id,
+                    'category'=>$category->name,
+                     'user_id'=>$singlePost->user_id,
+                     'img' =>$basePath.$singlePost->img,
+                     'img2'=>$basePath.$singlePost->img2,
+                     'img3'=>($singlePost->img3 !==  null) ? $basePath.$singlePost->img3: null,
+                     'img4'=>(($singlePost->img4 !==  null)) ? $basePath.$singlePost->img4: null,
+                     'img5'=>(($singlePost->img5 !==  null)) ? $basePath.$singlePost->img5: null,
+                     'location'=>$singlePost->location,
+                     'title'=>$singlePost->title,
+                     'type'=>$singlePost->type, 
+                     'product_condition'=>$singlePost->product_condition,
+                     'description'=>$singlePost->description,
+                     'price'=>$singlePost->price,
+                     'negotiable'=>$singlePost->negotiable, 
+                     'phone_no'=>$singlePost->phone_no, 
+                     'alt_phone_no'=>$singlePost->alt_phone_no, 
+                ];
+                array_push($allPosts,$post);
+        }
+
+        foreach($allPosts as $post){
+
+        }        
+    }
+
+    public function adminPosts(Request $request){
+        $adminPosts = Post::where('approved',0)->get();
+
+        
+        $basePath = 'https://hoverinsight.com/public/';
+
+        $allPosts=[];
+
+        foreach($adminPosts as $singlePost){
+            $category = Category::where('id',$singlePost->category_id)->first();
+            $post = [
+                    'post_id'=>$singlePost->id,
+                    'category'=>$category->name,
+                     'user_id'=>$singlePost->user_id,
+                     'img' =>$basePath.$singlePost->img,
+                     'img2'=>$basePath.$singlePost->img2,
+                     'img3'=>($singlePost->img3 !==  null) ? $basePath.$singlePost->img3: null,
+                     'img4'=>(($singlePost->img4 !==  null)) ? $basePath.$singlePost->img4: null,
+                     'img5'=>(($singlePost->img5 !==  null)) ? $basePath.$singlePost->img5: null,
+                     'location'=>$singlePost->location,
+                     'title'=>$singlePost->title,
+                     'type'=>$singlePost->type, 
+                     'product_condition'=>$singlePost->product_condition,
+                     'description'=>$singlePost->description,
+                     'price'=>$singlePost->price,
+                     'negotiable'=>$singlePost->negotiable, 
+                     'phone_no'=>$singlePost->phone_no, 
+                     'alt_phone_no'=>$singlePost->alt_phone_no, 
+                ];
+                array_push($allPosts,$post);
+        }
+
+        return response()->json([
+            'sucess'=> true,
+            'message'=>'Unapproved Posts',
+            'posts'=> $allPosts
+        ],200);
+
+    }
+
+    public function approvePost($approveId,$postId){
+        if($approveId==1){
+            $post = Post::where('id',$postId)->first();
+            $post->approved = 1;
+            $post->save();
+
+            return response()->json([
+                'sucsess'=>true,
+                'message'=>'Post Approved',
+            ]);
+
+        }elseif($approveId==0){
+            return response()->json([
+                'sucsess'=>true,
+                'message'=>'Post Not Approved',
+            ]);
+        }
+        else {
+            return response()->json([
+                'sucsess'=>false,
+                'message'=>'Invalid approveId(Must be 0 or 1)',
+            ]);
+        }
+    }
+    public function myLikes(Request $request){
+        $userId = $request->user()->id;
+
+        $liked = Likes::where('user_id', $userId)->get();
+
+        $likedPosts = [];
+        foreach($liked as $like){
+            $like =Post::where('id',$like->post_id)->first(); 
+            array_push($likedPosts, $like);
+
+        }
+        if(empty($likedPosts)){
+            return response()->json([
+                'success'=>true,
+                'message'=>'No Liked Posts'
+            ]);
+        }
+
+        $basePath = 'https://hoverinsight.com/public/';
+
+        $likes=[];
+
+        foreach($likedPosts as $singlePost){
+            $category = Category::where('id',$singlePost->category_id)->first();
+            $post = [
+                    'post_id'=>$singlePost->id,
+                    'category'=>$category->name,
+                     'user_id'=>$singlePost->user_id,
+                     'img' =>$basePath.$singlePost->img,
+                     'img2'=>$basePath.$singlePost->img2,
+                     'img3'=>($singlePost->img3 !==  null) ? $basePath.$singlePost->img3: null,
+                     'img4'=>(($singlePost->img4 !==  null)) ? $basePath.$singlePost->img4: null,
+                     'img5'=>(($singlePost->img5 !==  null)) ? $basePath.$singlePost->img5: null,
+                     'location'=>$singlePost->location,
+                     'title'=>$singlePost->title,
+                     'type'=>$singlePost->type, 
+                     'product_condition'=>$singlePost->product_condition,
+                     'description'=>$singlePost->description,
+                     'price'=>$singlePost->price,
+                     'negotiable'=>$singlePost->negotiable, 
+                     'phone_no'=>$singlePost->phone_no, 
+                     'alt_phone_no'=>$singlePost->alt_phone_no, 
+                ];
+                array_push($likes,$post);
+        }
+
+        return response()->json([
+            'success'=>true,
+            'message'=>'Liked Posts',
+            'likes'=> $likes
+        ],200);
+
+
+    }
+    public function toLike(Request $request,$like, $postId){
+
+        $userId = $request->user()->id;
+        if($like== 1){
+            $likedPost = Likes::create([
+                'user_id'=> $userId,
+                'post_id'=> $postId
+            ]);
+
+            return response()->json([
+                'success'=> true,
+                'message'=>'Post added to likes'
+
+            ],200);
+        }
+        elseif($like=0){
+            $post = Likes::where('post_id', $postId)->where('user_id', $userId)->first();
+            if($post){
+                $post->delete();
+            }
+            return response()->json([
+                'success'=> true,
+                'message'=>'Post removed from likes'
+
+            ],200);
+        }
+    }
+
+   
 }

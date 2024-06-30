@@ -6,6 +6,7 @@ use App\Http\Controllers\User\AuthController;
 use App\Http\Controllers\Contact\ContactController;
 use App\Http\Controllers\MarketPlace\CategoryController;
 use App\Http\Controllers\MarketPlace\PostController;
+use App\Http\Controllers\MarketPlace\CartController;
 use App\Http\Controllers\HiringService\HiringServiceController;
 use App\Http\Controllers\User\ProfileController;
 
@@ -70,9 +71,30 @@ Route::post('/contact-us', [ContactController::class, 'contactUs'])->name('conta
 
 
 // MarketPlace
+// Posts
 Route::post('/post-ad', [PostController::class, 'postAd'])->name('postAd');
 Route::get('{postId}/single-post', [PostController::class, 'singlePost'])->name('singlePost');
 Route::get('my-posts', [PostController::class, 'myPosts'])->name('myPosts');
+Route::get('all-posts', [PostController::class, 'allPosts'])->name('allPosts');
+
+// Cart
+Route::get('my-cart', [CartController::class, 'myCart'])->name('myCart');
+Route::post('add-cart', [CartController::class, 'addCart'])->name('addCart');
+Route::post('{cartId}/remove-cart-item', [CartController::class, 'removeCartItem'])->name('removeItem');
+Route::post('{quantity}/{cartItem}/item-quantity', [CartController::class, 'itemQuantity'])->name('itemQuantity');
+
+
+
+// Likes
+Route::get('my-likes', [PostController::class, 'mylikes'])->name('myLikes');
+Route::get('{like}/to-like', [PostController::class, 'toLike'])->name('toLike');
+
+// Admin
+Route::get('admin-posts', [PostController::class, 'adminPosts'])->name('adminPosts');
+Route::post('{approveId}/{postId}/approve-post', [PostController::class, 'approvePost'])->name('approvePost');
+
+
+
 
 
 // Proffesional Hiring Services 
