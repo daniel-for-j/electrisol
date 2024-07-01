@@ -185,18 +185,52 @@ class PostController extends Controller
 
     public function allPosts(Request $request){
     
-        $categories = Category::with('posts')->where('tag','post')->get();
+        $categoryPosts = Category::with('posts')->where('tag','post')->get();
         
-        $groupedPosts = $categories->groupBy(function ($categories) {
+        $groupedPosts = $categoryPosts->groupBy(function ($categoryPosts) {
 
-            return $categories->name;
+            return $categoryPosts->name;
         });
 
-        return $groupedPosts;
 
         $basePath = 'https://hoverinsight.com/public/';
 
-        $allPosts=[];
+        $formattedResponse=[];
+
+        foreach($groupedPosts as $categoryName => $categoryPosts){
+
+            $formattedResponse[] = [
+                'category' => $categoryName,
+                'posts' => $categoryPosts->map(function ($categoryPosts, $basePath, $categoryName) {
+                    return 
+                        [
+                            'post_id'=>$categoryPosts->id,
+                            'category'=>$categoryName,
+                             'user_id'=>$categoryPosts->user_id,
+                             'img' =>$basePath.$categoryPosts->img,
+                             'img2'=>$basePath.$categoryPosts->img2,
+                             'img3'=>($categoryPosts->img3 !==  null) ? $basePath.$categoryPosts->img3: null,
+                             'img4'=>(($categoryPosts->img4 !==  null)) ? $basePath.$categoryPosts->img4: null,
+                             'img5'=>(($categoryPosts->img5 !==  null)) ? $basePath.$categoryPosts->img5: null,
+                             'location'=>$categoryPosts->location,
+                             'title'=>$categoryPosts->title,
+                             'type'=>$categoryPosts->type, 
+                             'product_condition'=>$categoryPosts->product_condition,
+                             'description'=>$categoryPosts->description,
+                             'price'=>$categoryPosts->price,
+                             'negotiable'=>$categoryPosts->negotiable, 
+                             'phone_no'=>$categoryPosts->phone_no, 
+                             'alt_phone_no'=>$categoryPosts->alt_phone_no, 
+                        ];
+                })
+            ];
+
+        }
+
+        return response()->json([
+            'success'=> true,
+            'data'=> $formattedResponse
+        ]);
         
 
             
