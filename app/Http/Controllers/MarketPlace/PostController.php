@@ -184,45 +184,21 @@ class PostController extends Controller
     }
 
     public function allPosts(Request $request){
-        $posts = Post::get();
+    
         $categories = Category::with('posts')->where('tag','post')->get();
-
-        return $categories;
-
         
+        $groupedPosts = $categories->groupBy(function ($categories) {
+            return $categories->category->name;
+        });
+
+        return $groupedPosts;
 
         $basePath = 'https://hoverinsight.com/public/';
 
         $allPosts=[];
         
 
-        foreach($posts as $singlePost){
-            $category = Category::where('id',$singlePost->category_id)->first();
-            $post = [
-                    'post_id'=>$singlePost->id,
-                    'category'=>$category->name,
-                     'user_id'=>$singlePost->user_id,
-                     'img' =>$basePath.$singlePost->img,
-                     'img2'=>$basePath.$singlePost->img2,
-                     'img3'=>($singlePost->img3 !==  null) ? $basePath.$singlePost->img3: null,
-                     'img4'=>(($singlePost->img4 !==  null)) ? $basePath.$singlePost->img4: null,
-                     'img5'=>(($singlePost->img5 !==  null)) ? $basePath.$singlePost->img5: null,
-                     'location'=>$singlePost->location,
-                     'title'=>$singlePost->title,
-                     'type'=>$singlePost->type, 
-                     'product_condition'=>$singlePost->product_condition,
-                     'description'=>$singlePost->description,
-                     'price'=>$singlePost->price,
-                     'negotiable'=>$singlePost->negotiable, 
-                     'phone_no'=>$singlePost->phone_no, 
-                     'alt_phone_no'=>$singlePost->alt_phone_no, 
-                ];
-                array_push($allPosts,$post);
-        }
-
-        foreach($allPosts as $post){
-
-        }        
+            
     }
 
     public function adminPosts(Request $request){
