@@ -187,9 +187,10 @@ class PostController extends Controller
     
         $categories = Category::with('posts')->where('tag','post')->get();
         
-        // $groupedPosts = $categories->groupBy(function ($categories) {
-        //     return $categories->category->name;
-        // });
+        $groupedPosts = $categories->groupBy(function ($categories) {
+
+            return $categories->name;
+        });
 
         return $categories;
 
