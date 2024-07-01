@@ -185,9 +185,11 @@ class PostController extends Controller
 
     public function allPosts(Request $request){
         $posts = Post::get();
-        $categories = Category::with('posts')->get();
+        $categories = Category::with('posts')->where('tag','post')->get();
 
         return $categories;
+
+        
 
         $basePath = 'https://hoverinsight.com/public/';
 
