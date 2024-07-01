@@ -192,7 +192,7 @@ class PostController extends Controller
             return $categories->name;
         });
 
-        return $categories;
+        return $groupedPosts;
 
         $basePath = 'https://hoverinsight.com/public/';
 
