@@ -185,16 +185,43 @@ class PostController extends Controller
 
     public function allPosts(Request $request){
     
-        $categoryPosts = Category::select("name", "id")->with('posts')->where('tag','post')->get();
+        $categoryPosts = Category::with('posts')->where('tag','post')->get();
         
-        $groupedPosts = $categoryPosts->groupBy(function ($categoryPosts) {
-            return $categoryPosts->name;
-        });
+        // $groupedPosts = $categoryPosts->groupBy(function ($categoryPosts) {
+        //     return $categoryPosts->name;
+        // });
 
+        $response = $categoryPosts->map(function ($category) {
+            return [
+                'category' => $category->name,
+                'posts' => $category->posts->map(function ($post) {
+                          $basePath = 'https://hoverinsight.com/public/';
+                    return [
+                        'post_id'=>$post->id,
+                        // 'category'=>$category->name,
+                         'user_id'=>$post->user_id,
+                         'img' =>$basePath.$post->img,
+                         'img2'=>$basePath.$post->img2,
+                         'img3'=>($post->img3 !==  null) ? $basePath.$post->img3: null,
+                         'img4'=>(($post->img4 !==  null)) ? $basePath.$post->img4: null,
+                         'img5'=>(($post->img5 !==  null)) ? $basePath.$post->img5: null,
+                         'location'=>$post->location,
+                         'title'=>$post->title,
+                         'type'=>$post->type, 
+                         'product_condition'=>$post->product_condition,
+                         'description'=>$post->description,
+                         'price'=>$post->price,
+                         'negotiable'=>$post->negotiable, 
+                         'phone_no'=>$post->phone_no, 
+                         'alt_phone_no'=>$post->alt_phone_no, 
+                    ];
+                })
+            ];
+        });
 
         return response()->json([
             'success'=> true,
-            'data'=> $groupedPosts
+            'data'=> $response
         ]);
         
 
